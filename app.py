@@ -1,3 +1,10 @@
+
+
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from rag.indexer import build_index
@@ -9,7 +16,6 @@ from rag.parser import parse_pdf, parse_python
 from rag.cleaner import clean_text
 from rag.storage import save_cleaned_file
 from rag.chat import rag_chat
-
 
 
 class ChatRequest(BaseModel):
