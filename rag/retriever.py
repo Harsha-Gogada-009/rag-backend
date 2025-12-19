@@ -1,4 +1,5 @@
 import json
+import os
 import numpy as np
 import faiss
 from langchain_openai import OpenAIEmbeddings
@@ -12,6 +13,18 @@ CHUNKS_FILE = "chunks.json"
 
 class Retriever:
     def __init__(self):
+        if not os.path.exists(FAISS_INDEX_FILE):
+            raise FileNotFoundError(
+                f"FAISS index file '{FAISS_INDEX_FILE}' not found. "
+                "Please build the index first using the /build-index endpoint."
+            )
+        
+        if not os.path.exists(CHUNKS_FILE):
+            raise FileNotFoundError(
+                f"Chunks file '{CHUNKS_FILE}' not found. "
+                "Please build the index first using the /build-index endpoint."
+            )
+        
         self.index = faiss.read_index(FAISS_INDEX_FILE)
 
         with open(CHUNKS_FILE, "r", encoding="utf-8") as f:

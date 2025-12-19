@@ -6,11 +6,27 @@ from rag.retriever import Retriever
 load_dotenv()
 
 client = OpenAI()
-retriever = Retriever()
+_retriever = None
+
+
+def _get_retriever():
+    """Lazy initialization of retriever to avoid loading index at module import time."""
+    global _retriever
+    if _retriever is None:
+        _retriever = Retriever()
+    return _retriever
 
 
 def rag_chat(query: str) -> str:
-    retrieved = retriever.retrieve(query)
+    try:
+        retriever = _get_retriever()
+    except FileNotFoundError as e:
+        return f"Error: {str(e)}"
+    
+    try:
+        retrieved = retriever.retrieve(query)
+    except Exception as e:
+        return f"Error retrieving documents: {str(e)}"
 
     context_blocks = []
     for r in retrieved:
