@@ -1,0 +1,17 @@
+# Virtual environment
+venv/
+__pycache__/
+
+# Environment variables
+.env
+
+# Uploaded files
+uploads/
+
+# Generated RAG artifacts
+cleaned_text.json
+chunks.json
+faiss_index.index
+
+# Python cache
+*.pyc
