@@ -1,17 +1,12 @@
-
-
 import sys
 import os
+import shutil
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
 
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from rag.indexer import build_index
-from fastapi import UploadFile, File
-import os
-import shutil
 from pydantic import BaseModel
+from rag.indexer import build_index
 from rag.parser import parse_pdf, parse_python
 from rag.cleaner import clean_text
 from rag.storage import save_cleaned_file
@@ -37,11 +32,6 @@ app.add_middleware(
 @app.get("/")
 def health():
     return {"status": "Backend running"}
-
-
-
-
-from rag.chat import rag_chat
 
 
 @app.post("/chat")
