@@ -41,6 +41,7 @@ def chat(request: ChatRequest):
 
 
 
+from rag.indexer import build_index
 
 @app.post("/upload")
 async def upload_files(files: list[UploadFile] = File(...)):
@@ -66,14 +67,19 @@ async def upload_files(files: list[UploadFile] = File(...)):
         # Clean
         cleaned = clean_text(raw_text)
 
-        # Store
+        # Store cleaned content
         save_cleaned_file(
             file_name=file.filename,
             file_type=file_type,
             cleaned_text=cleaned
         )
 
-    return {"message": "Files processed successfully"}
+    # 🔥 AUTO BUILD FAISS INDEX AFTER UPLOAD
+    build_index()
+
+    return {
+        "message": "Files processed and FAISS index built successfully"
+    }
 
 
 
