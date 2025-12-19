@@ -8,6 +8,8 @@ from pydantic import BaseModel
 from rag.parser import parse_pdf, parse_python
 from rag.cleaner import clean_text
 from rag.storage import save_cleaned_file
+from rag.chat import rag_chat
+
 
 
 class ChatRequest(BaseModel):
